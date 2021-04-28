@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>tox_duplicates_2_z403.pl - Perl Script to fetch and convert ImageWare MyBIB-EDoc log files into z403-xml structure for load with ADAM-Job p_adam_02.</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#installation">INSTALLATION</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#installation">INSTALLATION</a></li>
+	<ul>
+
+		<li><a href="#konfiguration">KONFIGURATION</a></li>
+	</ul>
+
+	<li><a href="#structure_of_the_duplicates_log_file">STRUCTURE OF THE DUPLICATES LOG FILE</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_licence">COPYRIGHT AND LICENCE</a></li>
+	<li><a href="#version">VERSION</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>tox_duplicates_2_z403.pl - Perl Script to fetch and convert ImageWare MyBIB-EDoc log files into z403-xml structure for load with ADAM-Job p_adam_02.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<dl>
+<dt>
+<dd>
+<pre>
+  perl tox_duplicates_2_z403.pl            # With no parameters the log file from yesterday will be fetched.</pre>
+</dd>
+<dt>
+<dd>
+<pre>
+  perl tox_duplicates_2_z403.pl JJJJ-MM-TT # The log file from JJJJ-MM-TT will be fetched</pre>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="installation">INSTALLATION</a></h1>
+<p>The Perl-Script parseCSV.pl is required with configuration of semicolon as field separator and must be installed in the same directory (or be available through $path).</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The log files about found duplicates on MyBIB-TOX are written each day on MyBIB-EDoc. These logs contain the URLs of the duplicates on MyBIB-TOX.</p>
+<p>The script computes yesterday's date and looks for a corresponding log from the MyBIB EDoc-server ubmybib01.unibe.ch/tox-duplicates/&lt;Verbund&gt;/.</p>
+<p>It fetches the log if there. If not, an error message and a logfile entry are written. No further files are created.</p>
+<p>If the log file is there but without data, the output files contain the string 'KEINE DATEN GELIEFERT'.</p>
+<p>A normal log file with data is converted to the z403-xml structure required by the ADAM load job p_adam_02.
+Because the pdf files of the duplicates might not be searchable two xml files are created: one for the pdf link and one for the ocr data for indexing.</p>
+<p>Therefore p_adam_02 must be run twice: once with option 'Index: no' and the second with option 'Index: yes'.</p>
+<p>You might integrate this script into a shell script which is invoked by the ALEPH job list and which starts the ADAM jobs if necessary.</p>
+<p>
+</p>
+<hr />
+<h1><a name="installation">INSTALLATION</a></h1>
+<p>The Perl-Script parseCSV.pl is required and must be installed in the same directory (or be available through $path)</p>
+<p>
+</p>
+<h2><a name="konfiguration">KONFIGURATION</a></h2>
+<p>Two configurations must be done in the script:</p>
+<ol>
+<li>
+<p>The directory of the library on the MyBIB EDoc-Server must be configured ($verbund)</p>
+</li>
+<li>
+<p>The working and logging directory on the ALEPH server must be specified ($wrk_dir, $log_dir)</p>
+</li>
+</ol>
+<p>
+</p>
+<hr />
+<h1><a name="structure_of_the_duplicates_log_file">STRUCTURE OF THE DUPLICATES LOG FILE</a></h1>
+<p>The log file is a semicolon delimited .csv file with the following structure:</p>
+<pre>
+  A Date
+  B Institution
+  C Barcode
+  D SYS-ID
+  E ISBN
+  F TOX_URL_COUNT
+  G TOX_URL</pre>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p><a href="mailto:">Bernd Luchner</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_licence">COPYRIGHT AND LICENCE</a></h1>
+<p>Copyright (C) 2009 by Basel University Library</p>
+<p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself, either Perl version 5.8.8 or, at your option, any later version of Perl 5 you may have available.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>Version 1.0,  13.03.2009</p>
+<p>Version 1.2,  23.03.2009: Verbunddubletten ausschliessen</p>
+<p>Version 1.3,  26.03.2009: DNB-Links werden direkt auf d-nb.info gesetzt</p>
+
+</body>
+
+</html>
